@@ -367,7 +367,7 @@ public:
                     uiDamage = 0;
         }
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             DoAttack();
 
