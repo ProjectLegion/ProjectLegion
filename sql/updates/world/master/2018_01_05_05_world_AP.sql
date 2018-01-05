@@ -1,0 +1,1 @@
+UPDATE areatrigger SET spawn_mask = 8388870 WHERE spawn_mask = 8388614;
