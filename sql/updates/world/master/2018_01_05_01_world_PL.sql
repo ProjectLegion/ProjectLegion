@@ -26,11 +26,11 @@ DELETE FROM `quest_template_addon` WHERE `ID` IN (46, 11);
 INSERT INTO `quest_template_addon` (`ID`) VALUES ('46');
 INSERT INTO `quest_template_addon` (`ID`) VALUES ('11');
 
-DELETE FROM `quest_template_addon` WHERE `ID` = 239 AND `PrevQuestID` = 76;
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('239', '76');
+DELETE FROM `quest_template_addon` WHERE `ID`=239 AND `PrevQuestID`=76;
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('239', '76');
 
 DELETE FROM `quest_template_addon` WHERE `ID` = 26150 AND `PrevQuestID` = 60;
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('26150', '60');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('26150', '60');
 
 UPDATE `quest_template_addon` SET `NextQuestID` = '26389' WHERE `ID` = '28823';
 UPDATE `quest_template_addon` SET `NextQuestID` = '26389' WHERE `ID` = '28819';
@@ -48,11 +48,11 @@ DELETE FROM `quest_template_addon` WHERE `ID`=31143 AND `PrevQuestID`=31140;
 DELETE FROM `quest_template_addon` WHERE `ID`=31144 AND `PrevQuestID`=31143;
 DELETE FROM `quest_template_addon` WHERE `ID`=31145 AND `PrevQuestID`=31144 AND `NextQuestID`=26389;
 DELETE FROM `quest_template_addon` WHERE `ID`=31139 AND `AllowableClasses`=512;
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31140', '31139');
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31143', '31140');
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31144', '31143');
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`, `NextQuestID`) VALUES ('31145', '31144', '26389');
-INSERT INTO `quest_template_addon` (`ID`, `AllowableClasses`) VALUES ('31139', '512');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31140', '31139');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31143', '31140');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES ('31144', '31143');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`, `NextQuestID`) VALUES ('31145', '31144', '26389');
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `AllowableClasses`) VALUES ('31139', '512');
 UPDATE `quest_template_addon` SET `NextQuestID` = '28785' WHERE `ID` = '28770';
 UPDATE `quest_template_addon` SET `PrevQuestID` = '28770' , `NextQuestID` = '0' WHERE `ID` = '28785';
 UPDATE `quest_template_addon` SET `NextQuestID` = '28780' WHERE `ID` = '28759';
@@ -72,7 +72,7 @@ INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES ('823', '31144');
 INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES ('823', '31145');
 
 UPDATE `quest_template_addon` SET `PrevQuestID` = '-26389' WHERE `ID` = '26391';
-UPDATE `creature_queststarter` SET `quest` = '37112' WHERE `id` = '6774' AND `quest` = '2158';
+-- UPDATE `creature_queststarter` SET `quest` = '37112' WHERE `id` = '6774' AND `quest` = '2158';
 
 DELETE FROM `disables` WHERE `sourceType` = 1 AND `entry` IN (3100, 3101, 26910, 3102, 3103, 3104, 3105);
 INSERT INTO `disables` (`sourceType`, `entry`, `comment`) VALUES
@@ -130,7 +130,7 @@ DELETE FROM `quest_template_addon` WHERE `ID`=26316 AND `PrevQuestID`=26205;
 DELETE FROM `quest_template_addon` WHERE `ID`=26339 AND `PrevQuestID`=26333;
 DELETE FROM `quest_template_addon` WHERE `ID`=26264 AND `PrevQuestID`=26222;
 DELETE FROM `quest_template_addon` WHERE `ID`=26265 AND `PrevQuestID`=26222;
-INSERT INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES
+INSERT IGNORE INTO `quest_template_addon` (`ID`, `PrevQuestID`) VALUES
 ('26316', '26205'),
 ('26339', '26333'),
 ('26264', '26222'),

@@ -45,7 +45,7 @@ enum Say
 };
 
 enum CreatureIds
-}
+{
     NPC_STORMWIND_INFANTRY    = 49869,
     NPC_BLACKROCK_BATTLE_WORG = 49871,
     NPC_BROTHER_PAXTON        = 951,

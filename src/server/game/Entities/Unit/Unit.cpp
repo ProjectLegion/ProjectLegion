@@ -3154,14 +3154,16 @@ Aura* Unit::_TryStackingOrRefreshingExistingAura(SpellInfo const* newAura, uint3
     if (!newAura->IsMultiSlotAura())
     {
         // check if cast item changed
+        ObjectGuid castItemGUID;
+
         if (castItem)
         {
-            castItemGuid = castItem->GetGUID();
+            castItemGUID = castItem->GetGUID();
             castItemLevel = castItem->GetItemLevel(castItem->GetOwner());
         }
 
         // find current aura from spell and change it's stackamount, or refresh it's duration
-        if (Aura* foundAura = GetOwnedAura(newAura->Id, casterGUID, (newAura->HasAttribute(SPELL_ATTR0_CU_ENCHANT_PROC)) ? castItemGuid : ObjectGuid::Empty, 0))
+        if (Aura* foundAura = GetOwnedAura(newAura->Id, casterGUID, (newAura->HasAttribute(SPELL_ATTR0_CU_ENCHANT_PROC)) ? castItemGUID : ObjectGuid::Empty, 0))
         {
             // effect masks do not match
             // extremely rare case
@@ -3190,10 +3192,10 @@ Aura* Unit::_TryStackingOrRefreshingExistingAura(SpellInfo const* newAura, uint3
             }
 
             // correct cast item guid if needed
-            if (castItemGuid != foundAura->GetCastItemGUID())
+            if (castItemGUID != foundAura->GetCastItemGUID())
             {
                 ObjectGuid* oldGUID = const_cast<ObjectGuid*>(&foundAura->m_castItemGuid);
-                *oldGUID = castItemGuid;
+                *oldGUID = castItemGUID;
                 int32* oldItemLevel = const_cast<int32*>(&foundAura->m_castItemLevel);
                 *oldItemLevel = castItemLevel;
             }
@@ -3923,10 +3925,15 @@ void Unit::RemoveNotOwnSingleTargetAuras(uint32 newPhase, bool phaseid)
     for (AuraList::iterator iter = scAuras.begin(); iter != scAuras.end();)
     {
         Aura* aura = *iter;
-        if (aura->GetUnitOwner() != this && !aura->GetUnitOwner()->IsInPhase(newPhase))
+        if (aura->GetUnitOwner() && aura->GetUnitOwner() != this && !aura->GetUnitOwner()->IsInPhase(newPhase))
         {
-            aura->Remove();
-            iter = scAuras.begin();
+            if ((newPhase == 0x0 && !phaseid) || ((!aura->GetEffect(0) || aura->GetEffect(0)->GetAuraType() != SPELL_AURA_CONTROL_VEHICLE) && (!aura->GetEffect(1) || aura->GetEffect(1)->GetAuraType() != SPELL_AURA_CONTROL_VEHICLE)))
+            {
+                aura->Remove();
+                iter = scAuras.begin();
+            }
+            else
+                ++iter;
         }
         else
             ++iter;

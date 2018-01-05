@@ -473,6 +473,7 @@ namespace WorldPackets
         class MountSetFavorite;
         class PvpPrestigeRankUp;
         class CloseInteraction;
+        class FactionSelect;
         class AdventureJournalOpenQuest;
         class AdventureJournalStartQuest;
     }
@@ -1668,6 +1669,7 @@ class TC_GAME_API WorldSession
         void HandleObjectUpdateRescuedOpcode(WorldPackets::Misc::ObjectUpdateRescued& objectUpdateRescued);
         void HandleRequestCategoryCooldowns(WorldPackets::Spells::RequestCategoryCooldowns& requestCategoryCooldowns);
         void HandleCloseInteraction(WorldPackets::Misc::CloseInteraction& closeInteraction);
+        void HandleSelectFactionOpcode(WorldPackets::Misc::FactionSelect& selectFaction);
         void HandleAdventureJournalOpenQuest(WorldPackets::Misc::AdventureJournalOpenQuest& packet);
         void HandleAdventureJournalStartQuest(WorldPackets::Misc::AdventureJournalStartQuest& packet);
 

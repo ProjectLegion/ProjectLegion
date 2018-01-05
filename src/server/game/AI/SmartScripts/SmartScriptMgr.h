@@ -871,6 +871,8 @@ struct SmartAction
         struct
         {
             uint32 run;
+            uint32 speed;
+            uint32 speedDivider;
         } setRun;
 
         struct
@@ -1002,6 +1004,8 @@ struct SmartAction
             uint32 pointId;
             uint32 transport;
             uint32 disablePathfinding;
+            uint32 closePoint;
+            uint32 distance;
         } MoveToPos;
 
         struct
