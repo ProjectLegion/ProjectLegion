@@ -2478,6 +2478,57 @@ class npc_mirror_image : public CreatureScript
         }
 };
 
+// ProjectLegion 7.3.2
+
+// Blazing Barrier - 235313
+enum SpellBlazingBarrier
+{
+    SPELL_BLAZING_BARRIER_TRIGGER = 235314
+};
+
+class spell_mage_blazing_barrier : public SpellScriptLoader
+{
+public:
+    spell_mage_blazing_barrier() : SpellScriptLoader("spell_mage_blazing_barrier") { }
+
+    class spell_mage_blazing_barrier_AuraScript : public AuraScript
+    {
+        PrepareAuraScript(spell_mage_blazing_barrier_AuraScript);
+
+        bool Validate(SpellInfo const* /*spell*/) override
+        {
+            return ValidateSpellInfo({ SPELL_BLAZING_BARRIER_TRIGGER });
+        }
+
+        void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& canBeRecalculated)
+        {
+            canBeRecalculated = false;
+            if (Unit* caster = GetCaster())
+                amount += int32(caster->SpellBaseHealingBonusDone(GetSpellInfo()->GetSchoolMask()) * 7.0f);
+        }
+
+        void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        {
+            PreventDefaultAction();
+            Unit* caster = eventInfo.GetDamageInfo()->GetVictim();
+            Unit* target = eventInfo.GetDamageInfo()->GetAttacker();
+
+            if (caster && target)
+                caster->CastSpell(target, SPELL_BLAZING_BARRIER_TRIGGER, true);
+        }
+
+        void Register() override
+        {
+            DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_mage_blazing_barrier_AuraScript::CalculateAmount, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
+            OnEffectProc += AuraEffectProcFn(spell_mage_blazing_barrier_AuraScript::HandleProc, EFFECT_0, SPELL_AURA_PROC_TRIGGER_SPELL);
+        }
+    };
+
+    AuraScript* GetAuraScript() const override
+    {
+        return new spell_mage_blazing_barrier_AuraScript();
+    }
+};
 void AddSC_mage_spell_scripts()
 {
     new spell_mage_living_bomb();
@@ -2536,4 +2587,7 @@ void AddSC_mage_spell_scripts()
 
     // NPC Scripts
     new npc_mirror_image();
+
+// ProjectLegion 7.3.2
+    new spell_mage_blazing_barrier();
 }
