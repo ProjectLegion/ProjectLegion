@@ -2507,7 +2507,7 @@ public:
                 amount += int32(caster->SpellBaseHealingBonusDone(GetSpellInfo()->GetSchoolMask()) * 7.0f);
         }
 
-        void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             PreventDefaultAction();
             Unit* caster = eventInfo.GetDamageInfo()->GetVictim();

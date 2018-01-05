@@ -449,9 +449,7 @@ public:
         {
             if (_phase == 1)
                 if (_coolDown <= diff)
-                {
                     _phase = 0;
-                }
                 else
                     _coolDown -= diff;
 
