@@ -2189,6 +2189,16 @@ uint32 Item::GetItemLevel(Player const* owner) const
     for (uint32 i = 0; i < MAX_ITEM_PROTO_SOCKETS; ++i)
         itemLevel += _bonusData.GemItemLevelBonus[i];
 
+    if (owner->IsUsingPvpItemLevels())
+        itemLevel += sDB2Manager.GetPvpItemLevelBonus(GetEntry());
+
+    if (uint32 maxItemLevel = owner->GetUInt32Value(UNIT_FIELD_MAXITEMLEVEL))
+        itemLevel = std::min(itemLevel, maxItemLevel);
+
+    if (uint32 minItemLevel = owner->GetUInt32Value(UNIT_FIELD_MIN_ITEM_LEVEL))
+        if (itemLevel >= owner->GetUInt32Value(UNIT_FIELD_MIN_ITEM_LEVEL_CUTOFF))
+            itemLevel = std::max(itemLevel, minItemLevel);
+
     return std::min(std::max(itemLevel, uint32(MIN_ITEM_LEVEL)), uint32(MAX_ITEM_LEVEL));
 }
 

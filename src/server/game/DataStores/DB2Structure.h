@@ -2175,6 +2175,13 @@ struct PVPDifficultyEntry
     BattlegroundBracketId GetBracketId() const { return BattlegroundBracketId(BracketID); }
 };
 
+struct PvpItemEntry
+{
+    uint32 ID;
+    uint32 ItemID;
+    uint8 ItemLevelBonus;
+};
+
 struct PvpRewardEntry
 {
     uint32 ID;

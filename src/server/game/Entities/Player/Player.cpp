@@ -24161,6 +24161,8 @@ void Player::SendInitialPacketsAfterAddToMap()
     }
 
     SendGarrisonRemoteInfo();
+
+    UpdatePowerScaling();
 }
 
 void Player::SendUpdateToOutOfRangeGroupMembers()
@@ -28980,4 +28982,21 @@ void Player::ShowNeutralPlayerFactionSelectUI()
 {
     WorldPackets::Misc::FactionSelectUI packet;
     GetSession()->SendPacket(packet.Write());
+}
+
+void Player::UpdatePowerScaling()
+{
+    // @todo Activate pvp item levels during world pvp
+    bool pvpActivity = GetMap()->IsBattlegroundOrArena();
+
+    if (_usePvpItemLevels != pvpActivity)
+    {
+        _RemoveAllItemMods();
+        ActivatePvpItemLevels(pvpActivity);
+        _ApplyAllItemMods();
+
+        SetHealth(GetMaxHealth());
+        SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
+    }
+    // @todo other types of power scaling such as timewalking
 }

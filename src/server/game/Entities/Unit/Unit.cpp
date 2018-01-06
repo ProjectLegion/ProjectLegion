@@ -920,8 +920,12 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
                         }
 
                 if (Spell* spell = victim->m_currentSpells[CURRENT_CHANNELED_SPELL])
-                    if (spell->getState() == SPELL_STATE_CASTING && spell->m_spellInfo->HasChannelInterruptFlag(CHANNEL_FLAG_DELAY) && damagetype != DOT)
-                        spell->DelayedChannel();
+                    if (spell->getState() == SPELL_STATE_CASTING)
+                    {
+                        uint32 channelInterruptFlags = spell->m_spellInfo->ChannelInterruptFlags;
+                        if (((channelInterruptFlags & CHANNEL_FLAG_DELAY) != 0) && (damagetype != DOT))
+                            spell->DelayedChannel();
+                    }
             }
         }
 
@@ -3157,7 +3161,11 @@ Aura* Unit::_TryStackingOrRefreshingExistingAura(SpellInfo const* newAura, uint3
         if (castItem)
         {
             castItemGUID = castItem->GetGUID();
-            castItemLevel = castItem->GetItemLevel(castItem->GetOwner());
+
+            if (Player* owner = castItem->GetOwner())
+                castItemLevel = int32(castItem->GetItemLevel(owner));
+            else
+                castItemLevel = int32(castItem->GetItemLevel(caster->ToPlayer()));
         }
 
         // find current aura from spell and change it's stackamount, or refresh it's duration
