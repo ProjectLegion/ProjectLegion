@@ -585,7 +585,7 @@ public:
             _timer = 0;
         }
 
-        void MovementInform(uint32 type, uint32 id) override
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             if (me->IsInCombat())
                 return;
