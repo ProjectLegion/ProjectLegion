@@ -493,6 +493,7 @@ public:
             if (Creature* npc = attacker->ToCreature())
             {
                 if (npc->GetEntry() == NPC_BLACKROCK_BATTLE_WORG && me->GetHealthPct() < m_minHealth)
+                {
                     if (Creature* paxton = me->FindNearestCreature(NPC_BROTHER_PAXTON, 15.0f, true))
                     {
                         if (m_SayPaxtonCooldownTimer == 0)
@@ -506,8 +507,9 @@ public:
                         }
                         damage = 0;
                     }
-                    else
-                        damage = 0;
+                }
+                else
+                    damage = 0;
 
                 if (!me->IsInCombat())
                 {
