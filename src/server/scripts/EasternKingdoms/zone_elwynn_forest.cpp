@@ -577,7 +577,7 @@ public:
             _timer = 0;
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*who*/) override
         { 
             Talk(SAY_BLACKROCK_COMBAT);
             me->RemoveAllAuras();
